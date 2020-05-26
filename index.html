@@ -1,0 +1,166 @@
+<!doctype html>
+<html >
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"> </script>
+    <title>Загрузка статей</title>
+
+
+  </head>
+  <body style="background: rgb(250,250,250);" >
+    
+
+<div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Добавить статью</a>
+      </li>
+
+    </ul>
+   
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Не реализовано" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Не реализовано</button>
+    </form>
+
+  </div>
+
+</nav>
+
+
+<!-- Обои -->
+
+<!-- dsgsdf-->
+<div class="card text-center">
+
+  <div class="card-body">
+  	<!-- GRID -->
+  <div class="row" style="background-color: rgb(0,50,150, 0.09) ">
+ 
+ 
+  </div>
+
+
+
+<div id="app2" >
+
+<ul class="list-group">
+  <li v-for="item in items" :key="item" class="list-group-item">
+
+
+<div >
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img v-bind:src="item.src" class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title" ><span v-html="item.title"></span></h5>
+        <p class="card-text">
+        <span v-html="item.content"></span>
+    	</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+  </li>
+</ul>
+<button v-on:click="push1">Загрузить статьи</button>
+  
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+<script src="https://unpkg.com/vue"></script>
+<script> 
+
+    var app = new Vue({
+    //delimiters: ['[[', ']]'],
+    el: '#app2' ,
+    data: {
+         items: [], 
+         item: [],
+         body : '',
+         count : 1,
+        
+    },
+    
+	  methods: {
+     zapros(event) {
+		let config = {
+  			headers: {
+    			"Content-Type": "application/json", // делаем заголовок для формата Json
+  				}
+			}
+
+		let bodyZapros =  JSON.stringify({countClient: this.count}) // передает номер по Json для запроса номера статьи.
+
+     axios
+     .post('/zapros', bodyZapros, config)
+      			 .then (response => {this.body = response.data})
+      
+     
+      .catch(function(e){
+                    
+                });
+  		
+    },
+
+    push1: function (event) {
+  	
+    	this.zapros(event); 
+    	console.log(this.body.post.src);
+    	console.log(this.count);
+    	this.items.push(this.body.post); // добавляем в массив, то что пришло с сервера
+    	this.count++;
+    	
+        //setInterval(() => {this.items.push(this.body)}, 1500);
+        //this.items.push('***********************************');
+      }
+    },
+
+    });
+</script>
+
+
+  </div>
+</div>
+
+
+ <div class="card-footer text-muted" align="right">
+    FOOTER 2020
+  </div>
+
+</div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
